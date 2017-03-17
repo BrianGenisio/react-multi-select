@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 const buttonStyles = {
@@ -9,7 +10,15 @@ const buttonStyles = {
     padding: '3px 10px',
 };
 
-const Button = ({children, onClick, style = {}}) => (
+const Button = ({
+  children,
+  onClick,
+  style = {},
+} : {
+  children?: any,
+  onClick?: () => void,
+  style?: any,
+}) => (
     <button
         style={{...buttonStyles, ...style}}
         onClick={onClick}
@@ -18,10 +27,5 @@ const Button = ({children, onClick, style = {}}) => (
     </button>
 );
 
-Button.propTypes = {
-    children: React.PropTypes.string.isRequired,
-    onClick: React.PropTypes.func,
-    style: React.PropTypes.node,
-};
 
 export default Button;
