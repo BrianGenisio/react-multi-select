@@ -13,6 +13,36 @@ class MultiSelect extends Component {
         options: Array<Option>,
         selected: Array<any>,
         onSelectedChanged: (selected: Array<any>) => void,
+        noneSelectedText?: string,
+        allSelectedText?: string,
+    }
+
+    renderHeader() {
+        const {
+            options,
+            selected,
+            noneSelectedText,
+            allSelectedText
+        } = this.props;
+
+        const noneSelected = selected.length === 0;
+        const allSelected = selected.length === options.length;
+
+        if (noneSelected) {
+            return <span style={styles.noneSelected}>
+                {noneSelectedText || "Select some items..."}
+            </span>;
+        }
+
+        if (allSelected) {
+            return <span>
+                {allSelectedText || "ALL"}
+            </span>;
+        }
+
+        return <span>
+            Selected {selected.length} items
+        </span>;
     }
 
     render() {
@@ -22,9 +52,15 @@ class MultiSelect extends Component {
             contentComponent={SelectPanel}
             contentProps={{options, selected, onSelectedChanged}}
         >
-            How many do you want?
+            {this.renderHeader()}
         </Dropdown>;
     }
 }
+
+const styles = {
+    noneSelected: {
+        color: "#aaa",
+    },
+};
 
 export default MultiSelect;
