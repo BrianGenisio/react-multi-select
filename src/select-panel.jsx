@@ -47,16 +47,65 @@ class SelectPanel extends Component {
     }
 
     render() {
-        return <div>
-            <input type="text" onChange={this.handleSearchChange} />
-            <button onClick={this.clearSearch}>x</button>
-            <div>
-                <button onClick={this.selectAll}>Select All</button>
-                <button onClick={this.selectNone}>Select None</button>
+        return <div style={styles.panel}>
+            <div style={styles.searchContainer}>
+                <input
+                    placeholder="Search"
+                    type="text"
+                    onChange={this.handleSearchChange}
+                    style={styles.search}
+                />
+            </div>
+            <div style={styles.metaContainer}>
+                <span
+                    style={styles.metaButton}
+                    onClick={this.selectAll}
+                >
+                    Select All
+                </span>
+                <span
+                    style={styles.metaButton}
+                    onClick={this.selectNone}
+                >
+                    Select None
+                </span>
             </div>
             <SelectList {...this.props} options={this.filteredOptions()} />
         </div>;
     }
 }
+
+const styles = {
+    panel: {
+        boxSizing : 'border-box',
+    },
+    searchContainer: {
+        width: "100%",
+        boxSizing : 'border-box',
+        margin: "0.5em 0.5em 0.5em 0.5em",
+    },
+    search: {
+        display: "block",
+
+        maxWidth: "100%",
+        borderRadius: "3px",
+
+        boxSizing : 'border-box',
+        height: '30px',
+        lineHeight: '24px',
+        border: '1px solid #dee2e4',
+        padding: '10px',
+        width: "100%",
+    },
+    metaContainer: {
+        margin: "0.25em 0em"
+    },
+    metaButton: {
+        backgroundColor: "#eee",
+        padding: ".25em .5em",
+        margin: "0.5em",
+        cursor: "pointer",
+    },
+};
 
 export default SelectPanel;

@@ -22,7 +22,7 @@ class MultiSelect extends Component {
             options,
             selected,
             noneSelectedText,
-            allSelectedText
+            allSelectedText,
         } = this.props;
 
         const noneSelected = selected.length === 0;
