@@ -1,31 +1,30 @@
 // @flow
-import React from 'react';
+import React, {Component} from 'react';
 
-const buttonStyles = {
-    border: '1px solid #eee',
-    borderRadius: 3,
-    backgroundColor: '#FFFFFF',
-    cursor: 'pointer',
-    fontSize: 15,
-    padding: '3px 10px',
-};
+import Dropdown from './dropdown.jsx';
+import SelectPanel from './select-panel.jsx';
 
-const Button = ({
-  children,
-  onClick,
-  style = {},
-} : {
-  children?: any,
-  onClick?: () => void,
-  style?: any,
-}) => (
-    <button
-        style={{...buttonStyles, ...style}}
-        onClick={onClick}
-    >
-        {children}
-    </button>
-);
+import type {
+    Option,
+} from './select-item.jsx';
 
+class MultiSelect extends Component {
+    props: {
+        options: [Option],
+        selected: [any],
+        onSelectedChanged: (selected: [any]) => void,
+    }
 
-export default Button;
+    render() {
+        const {options, selected, onSelectedChanged} = this.props;
+
+        return <Dropdown
+            contentComponent={SelectPanel}
+            contentProps={{options, selected, onSelectedChanged}}
+        >
+            How many do you want?
+        </Dropdown>;
+    }
+}
+
+export default MultiSelect;

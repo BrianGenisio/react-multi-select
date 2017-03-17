@@ -10,11 +10,14 @@ const options = [
 ];
 
 class StatefulSelectPanel extends Component {
-    state = {
-        selected: [],
+    constructor() {
+        super();
+        this.state = {
+            selected: [],
+        };
     }
 
-    handleSelectedChanged = selected => {
+    handleSelectedChanged(selected) {
         this.setState({selected});
     }
 
@@ -24,7 +27,7 @@ class StatefulSelectPanel extends Component {
         return <div>
             <SelectPanel
                 options={options}
-                onSelectedChanged={this.handleSelectedChanged}
+                onSelectedChanged={this.handleSelectedChanged.bind(this)}
                 selected={selected}
             />
 
@@ -33,8 +36,6 @@ class StatefulSelectPanel extends Component {
         </div>;
     }
 }
-
-
 
 storiesOf('SelectPanel', module)
     .add('default view', () => <StatefulSelectPanel />);

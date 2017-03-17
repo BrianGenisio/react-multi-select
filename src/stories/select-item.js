@@ -13,12 +13,15 @@ const option: Option = {
 };
 
 class StatefulSelectItem extends Component {
-    state = {
-        option: option,
-        checked: false,
+    constructor() {
+        super();
+        this.state = {
+            option: option,
+            checked: false,
+        };
     }
 
-    handleChange = checked => {
+    handleChange(checked) {
         this.setState({checked});
     }
 
@@ -29,7 +32,7 @@ class StatefulSelectItem extends Component {
             <SelectItem
                 option={option}
                 checked={checked}
-                onSelectionChanged={this.handleChange}
+                onSelectionChanged={this.handleChange.bind(this)}
             />
 
             <h2>Selected:</h2>

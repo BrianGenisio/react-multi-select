@@ -1,22 +1,41 @@
 // @flow
-import React from 'react';
-import {storiesOf, action} from '@kadira/storybook';
-import Button from '../index';
+import React, {Component} from 'react';
+import {storiesOf} from '@kadira/storybook';
+import MultiSelect from '../index';
 
-storiesOf('Button', module)
-    .add('default view', () => (
-      <Button onClick={action('button clicked')}>Hello</Button>
-    ))
-    .add('some emojies as the text', () => (
-      <Button>😀 😎 👍 💯</Button>
-    ))
-    .add('custom styles', () => {
-        const style = {
-            fontSize: 20,
-            textTransform: 'uppercase',
-            color: '#FF8833',
+const options = [
+    {label: "Brian Genisio", value: 1},
+    {label: "John Doe", value: 2},
+    {label: "Jane Doe", value: 3},
+];
+
+class StatefulMultiSelect extends Component {
+    constructor() {
+        super();
+        this.state = {
+            selected: [],
         };
-        return (
-            <Button style={style}>Hello</Button>
-        );
-    });
+    }
+
+    handleSelectedChanged(selected) {
+        this.setState({selected});
+    }
+
+    render() {
+        const {selected} = this.state;
+
+        return <div>
+            <MultiSelect
+                options={options}
+                onSelectedChanged={this.handleSelectedChanged.bind(this)}
+                selected={selected}
+            />
+
+        <h2>Selected:</h2>
+        {selected.join(', ')}
+        </div>;
+    }
+}
+
+storiesOf('MultiSelect', module)
+    .add('default view', () => <StatefulMultiSelect />);
