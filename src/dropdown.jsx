@@ -2,14 +2,33 @@
 import React, {Component} from 'react';
 
 class Dropdown extends Component {
+
     state = {
         expanded: false,
     }
 
+    componentWillUpdate() {
+        document.addEventListener('touchstart', this.handleDocumentClick);
+        document.addEventListener('click', this.handleDocumentClick);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('touchstart', this.handleDocumentClick);
+        document.removeEventListener('click', this.handleDocumentClick);
+    }
+
     props: {
-        children: any,
+        children?: Object,
         contentComponent: Object,
         contentProps: Object,
+    }
+
+    wrapper: Object
+
+    handleDocumentClick = () => {
+        if (this.wrapper && !this.wrapper.contains(event.target)) {
+            this.setState({expanded: false});
+        }
     }
 
     toggleExpanded = () => {
@@ -27,13 +46,13 @@ class Dropdown extends Component {
         const {expanded} = this.state;
         const {children} = this.props;
 
-        return <div style={styles.dropdownContainer}>
-            <div style={styles.dropdownHeader}>
+        return <div
+            style={styles.dropdownContainer}
+            ref={ref => this.wrapper = ref}
+        >
+            <div style={styles.dropdownHeader} onClick={this.toggleExpanded}>
                 <span style={styles.dropdownChildren}>{children}</span>
-                <span
-                    style={styles.dropdownArrow}
-                    onClick={this.toggleExpanded}
-                >
+                <span style={styles.dropdownArrow}>
                     {expanded
                         ? <span style={styles.dropdownArrowUp} />
                         : <span style={styles.dropdownArrowDown} />

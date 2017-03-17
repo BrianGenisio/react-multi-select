@@ -9,9 +9,9 @@ import type {
 
 class SelectList extends Component {
     props: {
-        options: [Option],
-        selected: [Object],
-        onSelectedChanged: (selected: [Object]) => void,
+        options: Array<Option>,
+        selected: Array<Object>,
+        onSelectedChanged: (selected: any) => void,
     }
 
     handleSelectionChanged = (option: Option, checked: bool) => {

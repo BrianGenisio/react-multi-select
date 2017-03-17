@@ -21,6 +21,7 @@ class ContentPanel extends Component {
 
 const DropdownExample = () => <Dropdown
     contentComponent={ContentPanel}
+    contentProps={{}}
 >
     <span>This is the header</span>
 </Dropdown>;

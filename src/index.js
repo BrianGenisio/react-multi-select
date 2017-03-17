@@ -10,9 +10,9 @@ import type {
 
 class MultiSelect extends Component {
     props: {
-        options: [Option],
-        selected: [any],
-        onSelectedChanged: (selected: [any]) => void,
+        options: Array<Option>,
+        selected: Array<any>,
+        onSelectedChanged: (selected: Array<any>) => void,
     }
 
     render() {
