@@ -41,7 +41,7 @@ class SelectPanel extends Component {
     }
 
     handleSelectionChanged = (option, checked) => {
-        const {options, selected, onSelectedChanged} = this.props;
+        const {selected, onSelectedChanged} = this.props;
 
         if (checked) {
             onSelectedChanged([...selected, option.value]);
@@ -55,20 +55,40 @@ class SelectPanel extends Component {
         }
     }
 
+    selectAll = () => {
+        const {onSelectedChanged, options} = this.props;
+        const allValues = options.map(o => o.value);
+
+        onSelectedChanged(allValues);
+    }
+
+    selectNone = () => {
+        const {onSelectedChanged} = this.props;
+
+        onSelectedChanged([]);
+    }
+
     renderItems() {
-        const {options} = this.props;
+        const {options, selected} = this.props;
+
+        const isSelected = value => selected.includes(value);
 
         return options.map(o =>
             <SelectItem
                 key={o.value}
                 option={o}
                 onSelectionChanged={this.handleSelectionChanged}
+                checked={isSelected(o.value)}
             />
         );
     }
 
     render() {
         return <div>
+            <div>
+                <button onClick={this.selectAll}>Select All</button>
+                <button onClick={this.selectNone}>Select None</button>
+            </div>
             {this.renderItems()}
         </div>;
     }
