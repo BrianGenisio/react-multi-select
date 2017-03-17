@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 
 export type Option = {
@@ -12,7 +13,7 @@ class SelectItem extends Component {
         onSelectionChanged: (checked: bool) => void,
     }
 
-    onChecked = (e) => {
+    onChecked = (e: {target: {checked: bool}}) => {
         const {onSelectionChanged} = this.props;
 
         const checked = e.target.checked;

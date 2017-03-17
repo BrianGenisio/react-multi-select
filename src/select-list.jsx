@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 
 import SelectItem from './select-item.jsx';
@@ -9,11 +10,11 @@ import type {
 class SelectList extends Component {
     props: {
         options: [Option],
-        selected: [any],
-        onSelectedChanged: (selected: [any]) => void,
+        selected: [Object],
+        onSelectedChanged: (selected: [Object]) => void,
     }
 
-    handleSelectionChanged = (option, checked) => {
+    handleSelectionChanged = (option: Option, checked: bool) => {
         const {selected, onSelectedChanged} = this.props;
 
         if (checked) {

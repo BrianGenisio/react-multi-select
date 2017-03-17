@@ -35,6 +35,10 @@ class SelectPanel extends Component {
         this.setState({searchText: e.target.value});
     }
 
+    clearSearch = () => {
+        this.setState({searchText: ""});
+    }
+
     filteredOptions() {
         const {searchText} = this.state;
         const {options} = this.props;
@@ -45,6 +49,7 @@ class SelectPanel extends Component {
     render() {
         return <div>
             <input type="text" onChange={this.handleSearchChange} />
+            <button onClick={this.clearSearch}>x</button>
             <div>
                 <button onClick={this.selectAll}>Select All</button>
                 <button onClick={this.selectNone}>Select None</button>
