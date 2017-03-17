@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import {filterOptions} from './fuzzy-string-matching.js';
 import SelectList from './select-list.jsx';
 
 import type {
@@ -7,6 +8,10 @@ import type {
 } from './select-item.jsx';
 
 class SelectPanel extends Component {
+    state = {
+        searchText: "",
+    }
+
     props: {
         options: [Option],
         selected: [any],
@@ -26,13 +31,25 @@ class SelectPanel extends Component {
         onSelectedChanged([]);
     }
 
+    handleSearchChange = (e) => {
+        this.setState({searchText: e.target.value});
+    }
+
+    filteredOptions() {
+        const {searchText} = this.state;
+        const {options} = this.props;
+
+        return filterOptions(options, searchText);
+    }
+
     render() {
         return <div>
+            <input type="text" onChange={this.handleSearchChange} />
             <div>
                 <button onClick={this.selectAll}>Select All</button>
                 <button onClick={this.selectNone}>Select None</button>
             </div>
-            <SelectList {...this.props} />
+            <SelectList {...this.props} options={this.filteredOptions()} />
         </div>;
     }
 }

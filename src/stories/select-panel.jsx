@@ -4,9 +4,9 @@ import {storiesOf} from '@kadira/storybook';
 import SelectPanel from '../select-panel';
 
 const options = [
-    {label: "one", value: 1},
-    {label: "two", value: 2},
-    {label: "three", value: 3},
+    {label: "Brian Genisio", value: 1},
+    {label: "John Doe", value: 2},
+    {label: "Jane Doe", value: 3},
 ];
 
 class StatefulSelectPanel extends Component {
