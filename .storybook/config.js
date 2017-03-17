@@ -7,6 +7,7 @@ import {configure} from '@kadira/storybook';
 
 function loadStories() {
     require('../src/stories');
+    require('../src/stories/select-item');
     require('../src/stories/select-panel');
 }
 
