@@ -17,6 +17,18 @@ class MultiSelect extends Component {
         allSelectedText?: string,
     }
 
+    getSelectedText() {
+        const {options, selected} = this.props;
+
+        const selectedOptions = selected
+            .map(s => options.find(o => o.value === s))
+            .filter(o => !!o);
+
+        const selectedLabels = selectedOptions.map(s => s.label);
+
+        return selectedLabels.join(", ");
+    }
+
     renderHeader() {
         const {
             options,
@@ -36,12 +48,12 @@ class MultiSelect extends Component {
 
         if (allSelected) {
             return <span>
-                {allSelectedText || "ALL"}
+                {allSelectedText || "All items were selected"}
             </span>;
         }
 
         return <span>
-            Selected {selected.length} items
+            {this.getSelectedText()}
         </span>;
     }
 

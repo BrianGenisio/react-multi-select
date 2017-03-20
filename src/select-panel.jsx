@@ -11,7 +11,6 @@ import type {
 class SelectPanel extends Component {
     state = {
         searchText: "",
-        selectAll: false,
     }
 
     props: {
@@ -34,14 +33,12 @@ class SelectPanel extends Component {
     }
 
     selectAllChanged = (checked) => {
-        this.setState({selectAll: checked});
-
         if (checked) {
             this.selectAll();
         } else {
             this.selectNone();
         }
-    };
+    }
 
     handleSearchChange = (e) => {
         this.setState({searchText: e.target.value});
@@ -49,6 +46,11 @@ class SelectPanel extends Component {
 
     clearSearch = () => {
         this.setState({searchText: ""});
+    }
+
+    allAreSelected() {
+        const {options, selected} = this.props;
+        return options.length === selected.length;
     }
 
     filteredOptions() {
@@ -59,8 +61,6 @@ class SelectPanel extends Component {
     }
 
     render() {
-        const {selectAll} = this.state;
-
         const selectAllOption = {
             label: "Select All",
             value: "",
@@ -77,7 +77,7 @@ class SelectPanel extends Component {
             </div>
 
             <SelectItem
-                checked={selectAll}
+                checked={this.allAreSelected()}
                 option={selectAllOption}
                 onSelectionChanged={this.selectAllChanged}
             />
