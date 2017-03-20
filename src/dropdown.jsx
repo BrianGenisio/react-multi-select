@@ -1,4 +1,5 @@
 // @flow
+import {StyleSheet, css} from 'aphrodite';
 import React, {Component} from 'react';
 
 class Dropdown extends Component {
@@ -46,21 +47,31 @@ class Dropdown extends Component {
         const {expanded} = this.state;
         const {children} = this.props;
 
+        const headerStyles = [styles.dropdownHeader];
+        if (expanded) {
+            headerStyles.push(styles.dropdownHeaderExpanded);
+        }
+
         return <div
-            style={styles.dropdownContainer}
+            className={css(styles.dropdownContainer)}
             ref={ref => this.wrapper = ref}
         >
-            <div style={styles.dropdownHeader} onClick={this.toggleExpanded}>
-                <span style={styles.dropdownChildren}>{children}</span>
-                <span style={styles.dropdownArrow}>
+            <div
+                className={css(headerStyles)}
+                onClick={this.toggleExpanded}
+            >
+                <span className={css(styles.dropdownChildren)}>
+                    {children}
+                </span>
+                <span className={css(styles.dropdownArrow)}>
                     {expanded
-                        ? <span style={styles.dropdownArrowUp} />
-                        : <span style={styles.dropdownArrowDown} />
+                        ? <span className={css(styles.dropdownArrowUp)} />
+                        : <span className={css(styles.dropdownArrowDown)} />
                     }
                 </span>
             </div>
             {expanded ? <div
-                style={styles.panelContainer}
+                className={css(styles.panelContainer)}
             >
                 {this.renderPanel()}
             </div>
@@ -70,7 +81,7 @@ class Dropdown extends Component {
     }
 }
 
-const styles = {
+const styles = StyleSheet.create({
     dropdownContainer: {
         position: 'relative',
         boxSizing: 'border-box',
@@ -91,6 +102,10 @@ const styles = {
         overflow: 'hidden',
         position: 'relative',
         width: '100%',
+    },
+    dropdownHeaderExpanded: {
+        borderBottomRightRadius: '0px',
+        borderBottomLeftRadius: '0px',
     },
     dropdownChildren: {
         boxSizing: 'border-box',
@@ -148,12 +163,13 @@ const styles = {
         boxShadow: '0 1px 0 rgba(0, 0, 0, 0.06)',
         boxSizing: 'border-box',
         marginTop: '-1px',
-        maxHeight: '200px',
+        maxHeight: '300px',
         position: 'absolute',
         top: '100%',
         width: '100%',
         zIndex: 1,
+        overflowY: 'auto',
     },
-};
+});
 
 export default Dropdown;
