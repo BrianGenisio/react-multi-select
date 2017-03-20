@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import {filterOptions} from './fuzzy-string-matching.js';
+import SelectItem from './select-item.jsx';
 import SelectList from './select-list.jsx';
 
 import type {
@@ -10,6 +11,7 @@ import type {
 class SelectPanel extends Component {
     state = {
         searchText: "",
+        selectAll: false,
     }
 
     props: {
@@ -31,6 +33,16 @@ class SelectPanel extends Component {
         onSelectedChanged([]);
     }
 
+    selectAllChanged = (checked) => {
+        this.setState({selectAll: checked});
+
+        if (checked) {
+            this.selectAll();
+        } else {
+            this.selectNone();
+        }
+    };
+
     handleSearchChange = (e) => {
         this.setState({searchText: e.target.value});
     }
@@ -47,6 +59,13 @@ class SelectPanel extends Component {
     }
 
     render() {
+        const {selectAll} = this.state;
+
+        const selectAllOption = {
+            label: "Select All",
+            value: "",
+        };
+
         return <div style={styles.panel}>
             <div style={styles.searchContainer}>
                 <input
@@ -56,20 +75,13 @@ class SelectPanel extends Component {
                     style={styles.search}
                 />
             </div>
-            <div style={styles.metaContainer}>
-                <span
-                    style={styles.metaButton}
-                    onClick={this.selectAll}
-                >
-                    Select All
-                </span>
-                <span
-                    style={styles.metaButton}
-                    onClick={this.selectNone}
-                >
-                    Select None
-                </span>
-            </div>
+
+            <SelectItem
+                checked={selectAll}
+                option={selectAllOption}
+                onSelectionChanged={this.selectAllChanged}
+            />
+
             <SelectList {...this.props} options={this.filteredOptions()} />
         </div>;
     }
@@ -96,15 +108,6 @@ const styles = {
         border: '1px solid #dee2e4',
         padding: '10px',
         width: "100%",
-    },
-    metaContainer: {
-        margin: "0.25em 0em"
-    },
-    metaButton: {
-        backgroundColor: "#eee",
-        padding: ".25em .5em",
-        margin: "0.5em",
-        cursor: "pointer",
     },
 };
 

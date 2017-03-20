@@ -1,4 +1,5 @@
 // @flow
+import {StyleSheet, css} from 'aphrodite';
 import React, {Component} from 'react';
 
 export type Option = {
@@ -29,7 +30,7 @@ class SelectItem extends Component {
         const {option, checked} = this.props;
 
         return <div
-            style={styles.itemContainer}
+            className={css(styles.itemContainer)}
             onClick={this.toggleChecked}
         >
             <input
@@ -37,12 +38,14 @@ class SelectItem extends Component {
                 onChange={this.onChecked}
                 checked={checked}
             />
-            <span type={styles.label}>{option.label}</span>
+            <span className={css(styles.label)}>
+                {option.label}
+            </span>
         </div>;
     }
 }
 
-const styles = {
+const styles = StyleSheet.create({
     itemContainer: {
         boxSizing: 'border-box',
         backgroundColor: '#fff',
@@ -50,6 +53,10 @@ const styles = {
         cursor: 'pointer',
         display: 'block',
         padding: '8px 10px',
+
+        ':hover': {
+            backgroundColor: '#f0f0f0',
+        },
     },
     label: {
         display: 'inline-block',
@@ -59,6 +66,6 @@ const styles = {
         cursor: 'default',
         padding: '2px 5px',
     },
-};
+});
 
 export default SelectItem;
