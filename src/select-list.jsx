@@ -9,6 +9,7 @@ import type {
 
 class SelectList extends Component {
     props: {
+        focusIndex: number,
         options: Array<Option>,
         selected: Array<Object>,
         onSelectedChanged: (selected: any) => void,
@@ -30,12 +31,13 @@ class SelectList extends Component {
     }
 
     renderItems() {
-        const {options, selected} = this.props;
+        const {options, selected, focusIndex} = this.props;
 
         const isSelected = value => selected.includes(value);
 
         return options.map((o, i) =>
             <SelectItem
+                focused={focusIndex === i}
                 key={i}
                 option={o}
                 onSelectionChanged={c => this.handleSelectionChanged(o, c)}

@@ -8,9 +8,20 @@ export type Option = {
 };
 
 class SelectItem extends Component {
+    componentDidMount() {
+        this.updateFocus();
+    }
+
+    componentDidUpdate() {
+        this.updateFocus();
+    }
+
+    itemRef: HTMLElement
+
     props: {
         option: Option,
         checked: boolean,
+        focused?: boolean,
         onSelectionChanged: (checked: bool) => void,
     }
 
@@ -26,12 +37,38 @@ class SelectItem extends Component {
         onSelectionChanged(!checked);
     }
 
+    updateFocus() {
+        const {focused} = this.props;
+
+        if (focused && this.itemRef) {
+            this.itemRef.focus();
+        }
+    }
+
+    handleKeypress = (e: KeyboardEvent) => {
+        switch (e.which) {
+            case 13: // Enter
+                this.toggleChecked();
+                break;
+            default:
+                return;
+        }
+
+        e.preventDefault();
+    }
+
     render() {
         const {option, checked} = this.props;
 
         return <div
+            role="option"
+            aria-selected={checked}
+            selected={checked}
+            tabIndex="-1"
             className={css(styles.itemContainer)}
             onClick={this.toggleChecked}
+            ref={ref => this.itemRef = ref}
+            onKeyDown={this.handleKeypress}
         >
             <input
                 type="checkbox"

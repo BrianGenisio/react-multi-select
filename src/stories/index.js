@@ -158,4 +158,9 @@ storiesOf('MultiSelect', module)
             options={studentsList}
             valueRenderer={studentValueRenderer}
         />
-    );
+    )
+    .add('tab test', () => <div>
+        <input/>
+        <StatefulMultiSelect options={shortList} />
+        <input type="checkbox" />
+    </div>);

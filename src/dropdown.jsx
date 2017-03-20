@@ -26,16 +26,40 @@ class Dropdown extends Component {
 
     wrapper: Object
 
-    handleDocumentClick = () => {
+    handleDocumentClick = (event: Event) => {
         if (this.wrapper && !this.wrapper.contains(event.target)) {
             this.setState({expanded: false});
         }
     }
 
-    toggleExpanded = () => {
+    handleKeypress = (e: KeyboardEvent) => {
+        switch (e.which) {
+            case 27: // Escape
+                this.toggleExpanded(false);
+                break;
+            case 38: // Up Arrow
+                this.toggleExpanded(false);
+                break;
+            case 40: // Down Arrow
+                this.toggleExpanded(true);
+                break;
+            default:
+                return;
+        }
+
+        e.preventDefault();
+    }
+
+    toggleExpanded = (value: ?boolean) => {
         const {expanded} = this.state;
 
-        this.setState({expanded: !expanded});
+        const newExpanded = value === undefined ? !expanded : !!value;
+
+        this.setState({expanded: newExpanded});
+
+        if (!newExpanded && this.wrapper) {
+            this.wrapper.focus();
+        }
     }
 
     renderPanel() {
@@ -53,14 +77,21 @@ class Dropdown extends Component {
         }
 
         return <div
+            tabIndex="0"
+            role="combobox"
+            aria-expanded={expanded}
+            aria-readonly="true"
             className={css(styles.dropdownContainer)}
             ref={ref => this.wrapper = ref}
+            onKeyDown={this.handleKeypress}
         >
             <div
                 className={css(headerStyles)}
-                onClick={this.toggleExpanded}
+                onClick={() => this.toggleExpanded()}
             >
-                <span className={css(styles.dropdownChildren)}>
+                <span
+                    className={css(styles.dropdownChildren)}
+                >
                     {children}
                 </span>
                 <span className={css(styles.dropdownArrow)}>

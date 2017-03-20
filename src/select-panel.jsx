@@ -11,6 +11,7 @@ import type {
 class SelectPanel extends Component {
     state = {
         searchText: "",
+        focusIndex: 0,
     }
 
     props: {
@@ -48,6 +49,22 @@ class SelectPanel extends Component {
         this.setState({searchText: ""});
     }
 
+    handleKeypress = (e: KeyboardEvent) => {
+        switch (e.which) {
+            case 38: // Up Arrow
+                this.updateFocus(-1);
+                break;
+            case 40: // Down Arrow
+                this.updateFocus(1);
+                break;
+            default:
+                return;
+        }
+
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
     allAreSelected() {
         const {options, selected} = this.props;
         return options.length === selected.length;
@@ -60,13 +77,29 @@ class SelectPanel extends Component {
         return filterOptions(options, searchText);
     }
 
+    updateFocus(offset) {
+        const {focusIndex} = this.state;
+        const {options} = this.props;
+
+        let newFocus = focusIndex + offset;
+        newFocus = newFocus < 0 ? 0 : newFocus;
+        newFocus = newFocus > options.length ? options.length : newFocus;
+
+        this.setState({focusIndex: newFocus});
+    }
+
     render() {
+        const {focusIndex} = this.state;
+
         const selectAllOption = {
             label: "Select All",
             value: "",
         };
-
-        return <div style={styles.panel}>
+        return <div
+            style={styles.panel}
+            role="listbox"
+            onKeyDown={this.handleKeypress}
+        >
             <div style={styles.searchContainer}>
                 <input
                     placeholder="Search"
@@ -77,12 +110,17 @@ class SelectPanel extends Component {
             </div>
 
             <SelectItem
+                focused={focusIndex === 0}
                 checked={this.allAreSelected()}
                 option={selectAllOption}
                 onSelectionChanged={this.selectAllChanged}
             />
 
-            <SelectList {...this.props} options={this.filteredOptions()} />
+            <SelectList
+                {...this.props}
+                options={this.filteredOptions()}
+                focusIndex={focusIndex - 1}
+            />
         </div>;
     }
 }
