@@ -94,7 +94,7 @@ const styles = {
     searchContainer: {
         width: "100%",
         boxSizing : 'border-box',
-        margin: "0.5em 0.5em 0.5em 0.5em",
+        padding: "0.5em",
     },
     search: {
         display: "block",
