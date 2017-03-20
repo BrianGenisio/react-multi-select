@@ -33,6 +33,7 @@ class StatefulSelectItem extends Component {
                 option={option}
                 checked={checked}
                 onSelectionChanged={this.handleChange.bind(this)}
+                onClick={() => {}}
             />
 
             <h2>Selected:</h2>

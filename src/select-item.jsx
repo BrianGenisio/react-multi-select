@@ -23,6 +23,7 @@ class SelectItem extends Component {
         checked: boolean,
         focused?: boolean,
         onSelectionChanged: (checked: bool) => void,
+        onClick: (event: MouseEvent) => void,
     }
 
     onChecked = (e: {target: {checked: bool}}) => {
@@ -48,6 +49,7 @@ class SelectItem extends Component {
     handleKeypress = (e: KeyboardEvent) => {
         switch (e.which) {
             case 13: // Enter
+            case 32: // Space
                 this.toggleChecked();
                 break;
             default:
@@ -58,15 +60,17 @@ class SelectItem extends Component {
     }
 
     render() {
-        const {option, checked} = this.props;
+        const {option, checked, focused, onClick} = this.props;
+
+        const focusStyle = focused && styles.itemContainerHover;
 
         return <div
             role="option"
             aria-selected={checked}
             selected={checked}
             tabIndex="-1"
-            className={css(styles.itemContainer)}
-            onClick={this.toggleChecked}
+            className={css(styles.itemContainer, focusStyle)}
+            onClick={e => this.toggleChecked() && onClick(e)}
             ref={ref => this.itemRef = ref}
             onKeyDown={this.handleKeypress}
         >
@@ -74,6 +78,7 @@ class SelectItem extends Component {
                 type="checkbox"
                 onChange={this.onChecked}
                 checked={checked}
+                tabIndex="-1"
             />
             <span className={css(styles.label)}>
                 {option.label}
@@ -81,6 +86,11 @@ class SelectItem extends Component {
         </div>;
     }
 }
+
+const hover = {
+    backgroundColor: '#f0f0f0',
+    outline: 0,
+};
 
 const styles = StyleSheet.create({
     itemContainer: {
@@ -92,8 +102,11 @@ const styles = StyleSheet.create({
         padding: '8px 10px',
 
         ':hover': {
-            backgroundColor: '#f0f0f0',
+            ...hover,
         },
+    },
+    itemContainerHover: {
+        ...hover,
     },
     label: {
         display: 'inline-block',

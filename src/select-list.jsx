@@ -13,6 +13,7 @@ class SelectList extends Component {
         options: Array<Option>,
         selected: Array<Object>,
         onSelectedChanged: (selected: any) => void,
+        onClick: (event: MouseEvent, index: number) => void
     }
 
     handleSelectionChanged = (option: Option, checked: bool) => {
@@ -31,7 +32,7 @@ class SelectList extends Component {
     }
 
     renderItems() {
-        const {options, selected, focusIndex} = this.props;
+        const {options, selected, focusIndex, onClick} = this.props;
 
         const isSelected = value => selected.includes(value);
 
@@ -42,6 +43,7 @@ class SelectList extends Component {
                 option={o}
                 onSelectionChanged={c => this.handleSelectionChanged(o, c)}
                 checked={isSelected(o.value)}
+                onClick={e => onClick(e, i)}
             />
         );
     }

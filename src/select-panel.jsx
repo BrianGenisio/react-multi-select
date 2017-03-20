@@ -45,6 +45,10 @@ class SelectPanel extends Component {
         this.setState({searchText: e.target.value});
     }
 
+    handleItemClicked = index => {
+        this.setState({focusIndex: index});
+    }
+
     clearSearch = () => {
         this.setState({searchText: ""});
     }
@@ -114,12 +118,14 @@ class SelectPanel extends Component {
                 checked={this.allAreSelected()}
                 option={selectAllOption}
                 onSelectionChanged={this.selectAllChanged}
+                onClick={() => this.handleItemClicked(0)}
             />
 
             <SelectList
                 {...this.props}
                 options={this.filteredOptions()}
                 focusIndex={focusIndex - 1}
+                onClick={(e, index) => this.handleItemClicked(index + 1)}
             />
         </div>;
     }
