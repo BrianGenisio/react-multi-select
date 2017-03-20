@@ -34,9 +34,9 @@ class SelectList extends Component {
 
         const isSelected = value => selected.includes(value);
 
-        return options.map(o =>
+        return options.map((o, i) =>
             <SelectItem
-                key={o.value}
+                key={i}
                 option={o}
                 onSelectionChanged={c => this.handleSelectionChanged(o, c)}
                 checked={isSelected(o.value)}

@@ -13,18 +13,19 @@ class MultiSelect extends Component {
         options: Array<Option>,
         selected: Array<any>,
         onSelectedChanged: (selected: Array<any>) => void,
-        noneSelectedText?: string,
-        allSelectedText?: string,
+        valueRenderer?: (
+            selected: Array<any>,
+            options: Array<Option>
+        ) => string,
     }
 
     getSelectedText() {
         const {options, selected} = this.props;
 
         const selectedOptions = selected
-            .map(s => options.find(o => o.value === s))
-            .filter(o => !!o);
+            .map(s => options.find(o => o.value === s));
 
-        const selectedLabels = selectedOptions.map(s => s.label);
+        const selectedLabels = selectedOptions.map(s => s ? s.label : "");
 
         return selectedLabels.join(", ");
     }
@@ -33,27 +34,31 @@ class MultiSelect extends Component {
         const {
             options,
             selected,
-            noneSelectedText,
-            allSelectedText,
+            valueRenderer,
         } = this.props;
 
         const noneSelected = selected.length === 0;
         const allSelected = selected.length === options.length;
 
+        const customText = valueRenderer
+            ? valueRenderer(selected, options)
+            : undefined;
+
         if (noneSelected) {
             return <span style={styles.noneSelected}>
-                {noneSelectedText || "Select some items..."}
+                {customText || "Select some items..."}
             </span>;
         }
 
-        if (allSelected) {
-            return <span>
-                {allSelectedText || "All items were selected"}
-            </span>;
+        if (customText) {
+            return <span>{customText}</span>;
         }
 
         return <span>
-            {this.getSelectedText()}
+            {allSelected
+                ? "All items were selected"
+                : this.getSelectedText()
+            }
         </span>;
     }
 

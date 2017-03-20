@@ -87,6 +87,21 @@ const statesList = Object.keys(states)
         label: states[key],
     }));
 
+const students = [
+    {id: 0, name: "Zach Morris"},
+    {id: 1, name: "Kelly Kapowski"},
+    {id: 2, name: "A.C. Slater"},
+    {id: 3, name: "Lisa Turtle"},
+    {id: 4, name: "Jessie Spano"},
+    {id: 5, name: "Samuel Powers"},
+    {id: 6, name: "Tori Scott"},
+];
+
+const studentsList = students.map(s => ({
+    value: s,
+    label: s.name,
+}));
+
 class StatefulMultiSelect extends Component {
     constructor() {
         super();
@@ -97,6 +112,7 @@ class StatefulMultiSelect extends Component {
 
     props: {
         options: Option[],
+        valueRenderer?: (values: Array<any>, options: Array<Option>) => string,
     }
 
     handleSelectedChanged(selected) {
@@ -104,7 +120,7 @@ class StatefulMultiSelect extends Component {
     }
 
     render() {
-        const {options} = this.props;
+        const {options, valueRenderer} = this.props;
         const {selected} = this.state;
 
         return <div>
@@ -112,6 +128,7 @@ class StatefulMultiSelect extends Component {
                 options={options}
                 onSelectedChanged={this.handleSelectedChanged.bind(this)}
                 selected={selected}
+                valueRenderer={valueRenderer}
             />
 
         <h2>Selected:</h2>
@@ -120,7 +137,25 @@ class StatefulMultiSelect extends Component {
     }
 }
 
+function studentValueRenderer(selected, options) {
+    if (selected.length === 0) {
+        return "Slect some students...";
+    }
+
+    if (selected.length === options.length) {
+        return "All students selected";
+    }
+
+    return `Selected ${selected.length} Students`;
+}
+
 storiesOf('MultiSelect', module)
     .add('default view', () => <StatefulMultiSelect options={shortList} />)
     .add('long list view', () => <StatefulMultiSelect options={longList} />)
-    .add('United States', () => <StatefulMultiSelect options={statesList} />);
+    .add('United States', () => <StatefulMultiSelect options={statesList} />)
+    .add('Custom Heading Renderer',
+        () => <StatefulMultiSelect
+            options={studentsList}
+            valueRenderer={studentValueRenderer}
+        />
+    );
