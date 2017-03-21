@@ -42,7 +42,10 @@ class SelectPanel extends Component {
     }
 
     handleSearchChange = (e) => {
-        this.setState({searchText: e.target.value});
+        this.setState({
+            searchText: e.target.value,
+            focusIndex: -1,
+        });
     }
 
     handleItemClicked = index => {
