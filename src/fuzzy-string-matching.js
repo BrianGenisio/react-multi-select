@@ -1,7 +1,4 @@
-/* TODO(csilvers): fix these lint errors (http://eslint.org/docs/rules): */
-/* eslint-disable brace-style */
-/* To fix, remove an entry above, run "make linc", and fix errors. */
-
+// @flow
 // A collection of string matching algorithms used for school and filter
 // matching in the LearnStorm signup process.
 
@@ -10,7 +7,13 @@
 // Wallenberg Traditional High School. Case insensitive. Ignores
 // nonalphanumeric characters, and treats unaccented and Irish accented
 // characters as matching (ex, Í and I).
-function filterOptions(options, filter) {
+
+type Option = {
+    label: string,
+    value: any,
+};
+
+function filterOptions(options: Array<Option>, filter: string) {
     // If the filter is blank, return the full list of options.
     if (!filter) {
         return options;
@@ -42,12 +45,14 @@ function filterOptions(options, filter) {
 //
 // Meant for use in an instant search box where results are being fetched
 // as a user is typing.
-function typeaheadSimilarity(a, b) {
+function typeaheadSimilarity(a: string, b: string): number {
     const aLength = a.length;
     const bLength = b.length;
     const table = [];
 
-    if (!aLength || !bLength) { return; }
+    if (!aLength || !bLength) {
+        return 0;
+    }
 
     // Early exit if `a` startsWith `b`; these will be scored higher than any
     // other options with the same `b` (filter string), with a preference for
@@ -55,10 +60,6 @@ function typeaheadSimilarity(a, b) {
     if (a.indexOf(b) === 0) {
         return bLength + 1 / aLength;
     }
-
-    // TODO(riley): It would be nice if subsequence *proximity* was factored
-    //              in. For example, a filter string of "AL" should match
-    //              "wALnut grove" before it matches "wAtsonviLle"
 
     // Initialize the table axes:
     //
@@ -70,8 +71,12 @@ function typeaheadSimilarity(a, b) {
     //
     // aLength
     //
-    for (let x = 0; x <= aLength; ++x) { table[x] = [0]; }
-    for (let y = 0; y <= bLength; ++y) { table[0][y] = 0; }
+    for (let x = 0; x <= aLength; ++x) {
+        table[x] = [0];
+    }
+    for (let y = 0; y <= bLength; ++y) {
+        table[0][y] = 0;
+    }
 
     // Populate the rest of the table with a dynamic programming algorithm.
     for (let x = 1; x <= aLength; ++x) {
@@ -82,56 +87,13 @@ function typeaheadSimilarity(a, b) {
         }
     }
 
-    // TODO(riley): If we end up wanting to highlight matched characters in the
-    // results list, we can add a backtrack function here to return the full
-    // subsequence.
-    return table[aLength][bLength];
-}
-
-// Returns the Levenshtein distance between two strings.
-// NOTE(riley): The Jaro-Winkler distance also worked well and is slightly
-//              more performant. Levenshtein seems to match more
-//              reliably, which is the important metric here.
-function fullStringDistance(a, b) {
-    const aLength = a.length;
-    const bLength = b.length;
-    const table = [];
-
-    if (!aLength) { return bLength; }
-    if (!bLength) { return aLength; }
-
-    // Initialize the table axes:
-    //
-    //    0 1 2 3 4 ... bLength
-    //    1
-    //    2
-    //
-    //   ...
-    //
-    // aLength
-    //
-    for (let x = 0; x <= aLength; ++x) { table[x] = [x]; }
-    for (let y = 0; y <= bLength; ++y) { table[0][y] = y; }
-
-    // Populate the rest of the table with a dynamic programming algorithm.
-    for (let x = 1; x <= aLength; ++x) {
-        for (let y = 1; y <= bLength; ++y) {
-            table[x][y] = a[x - 1] === b[y - 1] ?
-                table[x - 1][y - 1] :
-                1 + Math.min(
-                    table[x - 1][y],      // Substitution,
-                    table[x][y - 1],      // insertion,
-                    table[x - 1][y - 1]); // and deletion.
-        }
-    }
-
     return table[aLength][bLength];
 }
 
 // Convert accented characters to basic form, remove non-alphanumeric
 // characters, and convert all letters to uppercase.
 // ex. 'Scoil Bhríde Primary School' becomes 'SCOILBHRIDEPRIMARYSCHOOL'
-function cleanUpText(name) {
+function cleanUpText(name: string): string {
     if (!name) {
         return '';
     }
@@ -152,7 +114,6 @@ function cleanUpText(name) {
 
 // A collection of strings with multiple spellings or variations that we expect
 // to match, for example accented characters or abbreviatable words.
-// TODO(riley): Open this up to the whole team.
 const stringSubstitutions = {
     'Á': 'A',
     'À': 'A',
@@ -178,9 +139,6 @@ const stringSubstitutions = {
     '\\\.': '',
 };
 
-module.exports = {
-    cleanUpText: cleanUpText,
-    filterOptions: filterOptions,
-    fullStringDistance: fullStringDistance,
-    typeaheadSimilarity: typeaheadSimilarity,
+export {
+    filterOptions,
 };

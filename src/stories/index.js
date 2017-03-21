@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {storiesOf} from '@kadira/storybook';
-import MultiSelect from '../index';
+import MultiSelect from '../index.js';
 
 import type {
     Option,
