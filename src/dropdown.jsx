@@ -1,5 +1,4 @@
 // @flow
-import {StyleSheet, css} from 'aphrodite';
 import React, {Component} from 'react';
 
 class Dropdown extends Component {
@@ -71,38 +70,37 @@ class Dropdown extends Component {
         const {expanded} = this.state;
         const {children} = this.props;
 
-        const headerStyles = [styles.dropdownHeader];
-        if (expanded) {
-            headerStyles.push(styles.dropdownHeaderExpanded);
-        }
+        const expandedHeaderStyle = expanded
+            ? styles.dropdownHeaderExpanded
+            : undefined;
 
         return <div
             tabIndex="0"
             role="combobox"
             aria-expanded={expanded}
             aria-readonly="true"
-            className={css(styles.dropdownContainer)}
+            style={styles.dropdownContainer}
             ref={ref => this.wrapper = ref}
             onKeyDown={this.handleKeypress}
         >
             <div
-                className={css(headerStyles)}
+                style={{...styles.dropdownHeader, ...expandedHeaderStyle}}
                 onClick={() => this.toggleExpanded()}
             >
                 <span
-                    className={css(styles.dropdownChildren)}
+                    style={styles.dropdownChildren}
                 >
                     {children}
                 </span>
-                <span className={css(styles.dropdownArrow)}>
+                <span style={styles.dropdownArrow}>
                     {expanded
-                        ? <span className={css(styles.dropdownArrowUp)} />
-                        : <span className={css(styles.dropdownArrowDown)} />
+                        ? <span style={styles.dropdownArrowUp} />
+                        : <span style={styles.dropdownArrowDown} />
                     }
                 </span>
             </div>
             {expanded ? <div
-                className={css(styles.panelContainer)}
+                style={styles.panelContainer}
             >
                 {this.renderPanel()}
             </div>
@@ -112,7 +110,7 @@ class Dropdown extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     dropdownContainer: {
         position: 'relative',
         boxSizing: 'border-box',
@@ -201,6 +199,6 @@ const styles = StyleSheet.create({
         zIndex: 1,
         overflowY: 'auto',
     },
-});
+};
 
 export default Dropdown;

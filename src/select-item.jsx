@@ -1,5 +1,4 @@
 // @flow
-import {StyleSheet, css} from 'aphrodite';
 import React, {Component} from 'react';
 
 export type Option = {
@@ -8,6 +7,10 @@ export type Option = {
 };
 
 class SelectItem extends Component {
+    state = {
+        hovered: false,
+    }
+
     componentDidMount() {
         this.updateFocus();
     }
@@ -67,18 +70,23 @@ class SelectItem extends Component {
 
     render() {
         const {option, checked, focused} = this.props;
+        const {hovered} = this.state;
 
-        const focusStyle = focused && styles.itemContainerHover;
+        const focusStyle = (focused || hovered)
+            ? styles.itemContainerHover
+            : undefined;
 
         return <div
             role="option"
             aria-selected={checked}
             selected={checked}
             tabIndex="-1"
-            className={css(styles.itemContainer, focusStyle)}
+            style={{...styles.itemContainer, ...focusStyle}}
             onClick={this.handleClick}
             ref={ref => this.itemRef = ref}
             onKeyDown={this.handleKeypress}
+            onMouseOver={() => this.setState({hovered: true})}
+            onMouseOut={() => this.setState({hovered: false})}
         >
             <input
                 type="checkbox"
@@ -86,19 +94,14 @@ class SelectItem extends Component {
                 checked={checked}
                 tabIndex="-1"
             />
-            <span className={css(styles.label)}>
+            <span style={styles.label}>
                 {option.label}
             </span>
         </div>;
     }
 }
 
-const hover = {
-    backgroundColor: '#f0f0f0',
-    outline: 0,
-};
-
-const styles = StyleSheet.create({
+const styles = {
     itemContainer: {
         boxSizing: 'border-box',
         backgroundColor: '#fff',
@@ -106,13 +109,10 @@ const styles = StyleSheet.create({
         cursor: 'pointer',
         display: 'block',
         padding: '8px 10px',
-
-        ':hover': {
-            ...hover,
-        },
     },
     itemContainerHover: {
-        ...hover,
+        backgroundColor: '#f0f0f0',
+        outline: 0,
     },
     label: {
         display: 'inline-block',
@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
         cursor: 'default',
         padding: '2px 5px',
     },
-});
+};
 
 export default SelectItem;
