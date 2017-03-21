@@ -1,12 +1,12 @@
 // @flow
 import React, {Component} from 'react';
 
-import Dropdown from './dropdown.jsx';
-import SelectPanel from './select-panel.jsx';
+import Dropdown from './dropdown.js';
+import SelectPanel from './select-panel.js';
 
 import type {
     Option,
-} from './select-item.jsx';
+} from './select-item.js';
 
 class MultiSelect extends Component {
     props: {

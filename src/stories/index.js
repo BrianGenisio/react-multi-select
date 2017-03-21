@@ -5,7 +5,7 @@ import MultiSelect from '../index';
 
 import type {
     Option,
-} from '../select-item.jsx';
+} from '../select-item.js';
 
 const shortList = [
     {label: "Brian Genisio", value: 1},

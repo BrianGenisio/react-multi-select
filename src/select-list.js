@@ -1,11 +1,11 @@
 // @flow
 import React, {Component} from 'react';
 
-import SelectItem from './select-item.jsx';
+import SelectItem from './select-item.js';
 
 import type {
     Option,
-} from './select-item.jsx';
+} from './select-item.js';
 
 class SelectList extends Component {
     props: {

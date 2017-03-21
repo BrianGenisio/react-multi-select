@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 
 import {filterOptions} from './fuzzy-string-matching.js';
-import SelectItem from './select-item.jsx';
-import SelectList from './select-list.jsx';
+import SelectItem from './select-item.js';
+import SelectList from './select-list.js';
 
 import type {
     Option,
-} from './select-item.jsx';
+} from './select-item.js';
 
 class SelectPanel extends Component {
     state = {

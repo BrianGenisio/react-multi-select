@@ -44,14 +44,14 @@
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
-    "sinon": "^1.17.6"
+    "sinon": "^1.17.6",
+    "uglify-js": "^2.8.14",
+    "webpack": "^2.2.1"
   },
   "peerDependencies": {
     "react": "^0.14.7 || ^15.0.0"
   },
-  "dependencies": {
-    "babel-runtime": "^6.11.6"
-  },
+  "dependencies": {},
   "main": "dist/index.js",
   "engines": {
     "npm": "^3.0.0"

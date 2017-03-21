@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {storiesOf} from '@kadira/storybook';
-import Dropdown from '../dropdown';
+import Dropdown from '../dropdown.js';
 
 class ContentPanel extends Component {
     render() {

@@ -5,7 +5,7 @@ import SelectItem from '../select-item';
 
 import type {
     Option,
-} from '../select-item.jsx';
+} from '../select-item.js';
 
 const option: Option = {
     label: "one",

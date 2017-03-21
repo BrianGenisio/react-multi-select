@@ -1,7 +1,7 @@
 // @flow
 import React, {Component} from 'react';
 import {storiesOf} from '@kadira/storybook';
-import SelectPanel from '../select-panel';
+import SelectPanel from '../select-panel.js';
 
 const options = [
     {label: "Brian Genisio", value: 1},
