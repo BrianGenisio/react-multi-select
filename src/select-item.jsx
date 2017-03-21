@@ -38,6 +38,12 @@ class SelectItem extends Component {
         onSelectionChanged(!checked);
     }
 
+    handleClick = (e: MouseEvent) => {
+        const {onClick} = this.props;
+        this.toggleChecked();
+        onClick(e);
+    }
+
     updateFocus() {
         const {focused} = this.props;
 
@@ -60,7 +66,7 @@ class SelectItem extends Component {
     }
 
     render() {
-        const {option, checked, focused, onClick} = this.props;
+        const {option, checked, focused} = this.props;
 
         const focusStyle = focused && styles.itemContainerHover;
 
@@ -70,7 +76,7 @@ class SelectItem extends Component {
             selected={checked}
             tabIndex="-1"
             className={css(styles.itemContainer, focusStyle)}
-            onClick={e => this.toggleChecked() && onClick(e)}
+            onClick={this.handleClick}
             ref={ref => this.itemRef = ref}
             onKeyDown={this.handleKeypress}
         >
