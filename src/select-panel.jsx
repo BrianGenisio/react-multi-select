@@ -56,9 +56,17 @@ class SelectPanel extends Component {
     handleKeypress = (e: KeyboardEvent) => {
         switch (e.which) {
             case 38: // Up Arrow
+                if (e.altKey) {
+                    return;
+                }
+
                 this.updateFocus(-1);
                 break;
             case 40: // Down Arrow
+                if (e.altKey) {
+                    return;
+                }
+
                 this.updateFocus(1);
                 break;
             default:
